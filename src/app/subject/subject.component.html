@@ -1,0 +1,169 @@
+<div class="container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+            </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+
+        <!-- Student Name Column -->
+        <ng-container matColumnDef="studentName">
+            <th mat-header-cell *matHeaderCellDef> Student Name </th>
+            <td mat-cell *matCellDef="let element">
+                <span *ngIf="!isTableEditable">
+                    {{element.studentName}}
+                </span>
+
+                <mat-form-field class="editable-cell" *ngIf="isTableEditable">
+                    <input matInput [(ngModel)]="element.studentName">
+                </mat-form-field>
+            </td>
+
+        </ng-container>
+
+        <!-- Academic Year Column -->
+        <ng-container matColumnDef="academicYear">
+            <th mat-header-cell *matHeaderCellDef> Academic Year </th>
+            <td mat-cell *matCellDef="let element">
+                <span *ngIf="!isTableEditable">
+                    {{element.academicYear}}
+                </span>
+
+                <mat-form-field class="editable-cell" *ngIf="isTableEditable">
+                    <mat-select [(value)]="element.academicYear">
+                        <mat-option *ngFor="let year of academicYears" [value]="year">{{year}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </td>
+        </ng-container>
+
+        <!-- Preferred Learning Style/s Column -->
+        <ng-container matColumnDef="learningStyles">
+            <th mat-header-cell *matHeaderCellDef> Learning Style/s </th>
+            <td mat-cell *matCellDef="let element">
+                <span *ngIf="!isTableEditable">
+                    {{element.learningStyles}}
+                </span>
+
+                <mat-form-field class="editable-cell" *ngIf="isTableEditable">
+                    <mat-select [(value)]="element.learningStyles">
+                        <mat-option *ngFor="let style of learningStyles" [value]="style">{{style}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </td>
+        </ng-container>
+
+
+        <!-- Class/Form Column -->
+        <ng-container matColumnDef="class_form">
+            <th mat-header-cell *matHeaderCellDef> Class/Form </th>
+            <td mat-cell *matCellDef="let element">
+                <span *ngIf="!isTableEditable">
+                    {{element.class_form}}
+                </span>
+
+                <mat-form-field class="editable-cell" *ngIf="isTableEditable">
+                    <mat-select [(value)]="element.class_form">
+                        <mat-option *ngFor="let classForm of class_form" [value]="classForm">{{classForm}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </td>
+        </ng-container>
+
+
+        <!-- Previous Form Average Column -->
+        <ng-container matColumnDef="previousFormAverage">
+            <th mat-header-cell *matHeaderCellDef> Previous Form Average </th>
+            <td mat-cell *matCellDef="let element">
+                <span *ngIf="!isTableEditable" [ngClass]="highlightCell(element.previousFormAverage)">
+                    {{element.previousFormAverage}}%
+                </span>
+
+                <mat-form-field class="editable-cell" *ngIf="isTableEditable">
+                    <input matInput [(ngModel)]="element.previousFormAverage">
+                </mat-form-field>
+            </td>
+        </ng-container>
+
+
+        <!-- Forces Column -->
+        <ng-container matColumnDef="forces">
+            <th mat-header-cell *matHeaderCellDef> Forces (%) </th>
+            <td mat-cell *matCellDef="let element">
+                <span *ngIf="!isTableEditable" [ngClass]="highlightCell(element.forces)">
+                    {{element.forces}}%
+                </span>
+
+                <mat-form-field class="editable-cell" *ngIf="isTableEditable">
+                    <input matInput [(ngModel)]="element.forces">
+                </mat-form-field>
+            </td>
+        </ng-container>
+
+
+        <!-- Density Column -->
+        <ng-container matColumnDef="density">
+            <th mat-header-cell *matHeaderCellDef> Density (%) </th>
+            <td mat-cell *matCellDef="let element">
+                <span *ngIf="!isTableEditable" [ngClass]="highlightCell(element.density)">
+                    {{element.density}}%
+                </span>
+
+                <mat-form-field class="editable-cell" *ngIf="isTableEditable">
+                    <input matInput [(ngModel)]="element.density">
+                </mat-form-field>
+            </td>
+        </ng-container>
+
+
+        <!-- Elecricity Column -->
+        <ng-container matColumnDef="electricity">
+            <th mat-header-cell *matHeaderCellDef> Elecricity (%) </th>
+            <td mat-cell *matCellDef="let element">
+                <span *ngIf="!isTableEditable" [ngClass]="highlightCell(element.electricity)">
+                    {{element.electricity}}%
+                </span>
+
+                <mat-form-field class="editable-cell" *ngIf="isTableEditable">
+                    <input matInput [(ngModel)]="element.electricity">
+                </mat-form-field>
+            </td>
+        </ng-container>
+
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="average">
+            <th mat-header-cell *matHeaderCellDef> AVERAGE </th>
+            <td mat-cell *matCellDef="let element">
+                <span [ngClass]="highlightCell(element.average)">
+                    {{getAverege(element)}}%
+                </span>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <button class="add-button" *ngIf="isTableEditable" mat-raised-button color="accent" (click)="deleteStudent()">Delete
+        student</button>
+
+    <button class="add-button" *ngIf="isTableEditable" mat-raised-button color="primary" (click)="addStudent()">Add
+        student</button>
+</div>

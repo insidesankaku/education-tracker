@@ -1,0 +1,7 @@
+<mat-card>
+    <mat-chip-list aria-label="subjects">
+        <mat-chip *ngFor="let subjectName of subjects" color="secondary" selected [routerLink]="['/subject', subjectName]">
+           {{subjectName}}
+        </mat-chip>
+    </mat-chip-list>
+</mat-card>

@@ -1,0 +1,11 @@
+<mat-toolbar color="primary">
+  <span>{{caption}}</span>
+  
+  <span class="fill-space"></span>
+
+  <button *ngIf="isEditButtonShown" mat-icon-button aria-label="Edit button" (click)="edit()">
+    <mat-icon>{{editButtonIcon}}</mat-icon>
+  </button>
+</mat-toolbar>
+
+<router-outlet></router-outlet>
