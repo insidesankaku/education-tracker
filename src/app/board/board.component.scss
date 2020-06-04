@@ -1,7 +1,10 @@
 mat-chip {
     font-size: 16px;
 
-    & :hover {
+    padding: 8px 34px;
+    min-height: 62px;
+
+    &:hover {
         cursor:pointer;
     }
 }
