@@ -53,7 +53,7 @@ let SUBJECT_DATA = [
     average: 34
   },
   {
-    position: 4,
+    position: 5,
     studentName: 'Natasha Romanoff',
     academicYear: '2020/21',
     learningStyles: 'V & A',
